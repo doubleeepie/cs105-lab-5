@@ -10,16 +10,16 @@ const port = 3000
 
 // where we will keep books
 let books = []
-
 app.use(cors())
+
 
 // configure body parser middleware
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
 app.post('/book', (req, res) => {
+    res.sendFile(__dirname + '/views/new-book.html')
     const book = req.body; 
-
     // output book to console for debugging 
     console.log(book)
     books.push(book)
@@ -37,7 +37,9 @@ fs.readFile(bookDataPath, 'utf8', (err, data) => {
 });
 
 app.get('/books', (req, res) => {
+  res.sendFile(__dirname + '/views/book-list.html')
   res.json(books);
+  
 });
 
 app.listen(port, () => {
@@ -60,4 +62,20 @@ app.post('/book/:isbn', (req, res) => {
 
     // send 404 when not found
     res.send('Book is edited')
+});
+
+app.post('/book/:isbn/delete', (req, res) => {
+  // read isbn from url
+  const isbn = req.params.isbn
+
+  // remove item form books array
+  for(let i=0; i < books.length; i++){
+      let book = books[i]
+      if (book.isbn === isbn){
+          books.splice(i, 1)
+      }
+  }
+
+  // send 404 when not found
+  res.send('Book is edited')
 })

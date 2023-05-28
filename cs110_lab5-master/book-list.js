@@ -23,7 +23,9 @@ async function loadBooks () {
 
                         <hr>
 
-                        <button type="button" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-danger" onClick="location.href='https://localhost:3000/book/${book.isbn}/delete';">
+                        Delete
+                        </button>
                         <button types="button" class="btn btn-primary" data-toggle="modal"
                             data-target="#editBookModal" onClick="setEditModal(${book.isbn})">
                         Edit
@@ -38,7 +40,7 @@ async function loadBooks () {
     }
 }
 
-loadBooks()
+loadBooks();
 
 async function setEditModal (isbn) {
     let response = await fetch("https//local:3000/book/${isbn}")
